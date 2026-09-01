@@ -18,6 +18,82 @@
 | `mkdir` | 新建目录 | `mkdir test`；`mkdir -p a/b/c` 一次建多级 |
 | `rmdir` | 删空目录（只能删空的） | `rmdir test` |
 
+### cd 目录切换详解（四大场景）
+
+#### 1️⃣ 切换到**上一级目录**（返回父目录）
+```bash
+cd ..                    # 上升一级，从 /home/radxa/Downloads → /home/radxa
+cd ../..                 # 上升两级，从 /home/radxa/a/b/c → /home/radxa
+```
+- 每一个 `..` 代表上升一层
+- 适用场景：从深层目录快速返回到上层工作
+
+#### 2️⃣ 进入**下一级目录**（进入子目录）
+```bash
+cd Downloads             # 进入当前目录下的 Downloads 文件夹
+cd Downloads/Documents   # 进入多层级子目录
+cd ./test                # 显式进入当前目录下的 test（.代表当前目录）
+```
+- `cd dirname` 是最常用的形式（不需要加 `./`）
+- 按 `Tab` 键自动补全目录名
+
+#### 3️⃣ 切换到**指定绝对路径**（从任何地方直达）
+```bash
+cd /home/radxa           # 绝对路径：以 / 开头，从根目录开始
+cd /opt/ros/humble       # 示例：直达 ROS2 安装目录
+cd /usr/bin              # 示例：直达系统命令目录
+```
+- 绝对路径以 `/` 开头，无论你在哪里都能直达
+- ROS2 开发常用：`cd /opt/ros/humble/`
+
+#### 4️⃣ 切换到**家目录和相对路径**（日常快捷）
+```bash
+cd ~                     # 回到家目录 /home/radxa
+cd                       # 不加参数，也是回到家目录
+cd ~/Downloads           # 相对于家目录的路径（~ 代表家目录）
+cd ~/ros2_ws/src         # ROS2 工作空间常用路径
+cd -                     # 回到上一次所在的目录（记忆最后访问过的位置）
+```
+
+### 目录切换常用技巧
+
+| 技巧 | 说明 |
+|---|---|
+| `pwd` 查看当前位置 | 切换后总是先 `pwd` 确认自己在哪儿 |
+| `ls` 查看目录内容 | 进入目录后用 `ls` 看里面有什么 |
+| `cd -` 来回切换 | 在两个常用目录间快速切换 |
+| `pushd` 和 `popd` | 高级用法：维护目录栈，适合复杂工程 |
+
+### 实战场景
+
+**场景1：从深层目录返回上层**
+```bash
+/home/radxa/ros2_ws/src/demo_pkg/src$ cd ../..
+# 现在在 /home/radxa/ros2_ws/src/
+```
+
+**场景2：快速进入下一级**
+```bash
+/home/radxa$ cd ros2_ws/src
+# 现在在 /home/radxa/ros2_ws/src/
+```
+
+**场景3：在两个工作区间切换**
+```bash
+$ cd ~/ros2_ws
+# 工作一会儿，然后...
+$ cd -
+# 回到前一个目录（可能是 ~/Downloads 或其他）
+```
+
+**场景4：ROS2 工作流**
+```bash
+$ cd ~/ros2_ws          # 切换到工作空间
+$ source install/setup.bash   # 配置环境
+$ cd src/my_package     # 进入包目录
+$ cd ../..              # 返回工作空间根目录
+```
+
 ## 二、文件操作（增、删、改、查、传）
 
 ### 复制 / 移动 / 重命名 / 删除
